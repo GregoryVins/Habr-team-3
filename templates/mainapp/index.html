@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container d-flex">
+        <main class="h-50 w-75">
+
+            {% for article in articles %}
+                <div class="container">
+                    <div class="article-info">
+                        <img src="#" alt="author-avatar" class="author-avatar">
+                        <span class="author-name"></span>
+                        <span class="article-publish-date"></span>
+                    </div>
+                    <p class="display-5">{{ article.title }}</p> {% comment %}Article title{% endcomment %}
+                    <p class="text-muted">{{ article.category.title }}</p> {% comment %}Article cathegory or tags {% endcomment %}
+                    <div class="article-image">
+                        <img src="#" alt="article-image" class="article-image">
+                    </div>
+                    <div class="article-stats form-control">
+                        <a href="#"><img src="#" alt="cloud"> Комментировать</a>
+                        <a href="#"><img src="#" alt="like"></a>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </main>
+
+        <aside class="h-50 w-25">
+            <div class="container">
+                <h6>РЕКОМЕНДУЕМ</h6>
+                <hr>
+                {% for top_article in top_articles %}
+                    <div class="form-control">
+                        <p class="recommended-article-title">{{ top_article.title }}</p>
+                        <div class="article-stats">
+                            <a href="#"><img src="#" alt="cloud"></a>
+                            <a href="#"><img src="#" alt="like"></a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </aside>
+
+    </div>
+{% endblock %}

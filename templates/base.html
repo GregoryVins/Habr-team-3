@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title|capfirst }}</title>
+    {% block css %}
+        <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+              crossorigin="anonymous">">
+    {% endblock %}
+    {% block js %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+                crossorigin="anonymous">
+        </script>">
+    {% endblock %}
+</head>
+
+<body>
+
+{% block header %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+    <footer class="">
+        <div class="container d-flex justify-content-center text-center">
+            <div class="w-25">
+                <p><img src="https://via.placeholder.com/140x100" alt="logotype"></p>
+                <p>Company name</p>
+            </div>
+            <div class="w-25">
+                <p class="h5">title</p>
+                <p><a href="#" class="text-muted">link</a></p>
+                <p><a href="#" class="text-muted">link</a></p>
+                <p><a href="#" class="text-muted">link</a></p>
+            </div>
+            <div class="w-25">
+                <p class="h5">title</p>
+                <p><a href="#" class="text-muted">link</a></p>
+                <p><a href="#" class="text-muted">link</a></p>
+                <p><a href="#" class="text-muted">link</a></p>
+            </div>
+        </div>
+        <div class="text-center">
+            Copyright © 2018-{% now 'Y' %}. All Right Reserved.
+        </div>
+    </footer>
+{% endblock %}
+
+</body>
+</html>
