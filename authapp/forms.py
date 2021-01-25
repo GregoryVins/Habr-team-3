@@ -1,17 +1,16 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from authapp.models import HabrUser
 
 
 class HabrUserRegisterForm(UserCreationForm):
     """
     Переопределённая форма для регистрации нового пользователя.
-    Включает дополнительные поля возраста и аватара.
     Задан Bootstrap стиль при инициализации.
     """
+
     class Meta:
         model = HabrUser
-        fields = (
-            'username', 'email',)
+        fields = ('username', 'email')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

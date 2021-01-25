@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="text-center m-5">
+            <h1 class="h3 mb-3 font-weight-normal">Вход:</h1>
+
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Вход" class="form-control btn btn-success">
+            </form>
+            <a href="{% url 'user_register' %}" class="btn form-control">Регистрация</a>
+
+            <br><br>
+            <a href="{% url 'list_articles' %}" class="btn form-control">Вернуться на главную</a>
+        </div>
+    </div>
+{% endblock %}

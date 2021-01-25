@@ -4,16 +4,16 @@
 {% block content %}
     <div class="container">
         <div class="text-center m-5">
-            <h1 class="h3 mb-3 font-weight-normal">Вход:</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Аккаунт {{ user }}:</h1>
 
-            <form class="form-horizontal" method="post">
+            <form class="form-horizontal" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="Вход" class="form-control btn btn-success">
+                <br><br>
+                <input type="submit" value="Сохранить" class="form-control btn btn-success">
             </form>
-            <a href="#" class="btn form-control">Регистрация</a>
-
             <br><br>
+
             <a href="#" class="btn form-control">Назад</a>
         </div>
     </div>

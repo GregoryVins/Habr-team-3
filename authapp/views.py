@@ -8,9 +8,9 @@ from authapp.models import HabrUser
 class UserRegisterView(CreateView):
     """
     Регистрация пользователя.
-    После успешной регистрации перенаправляет пользователя на главную страницу.
+    После успешной регистрации перенаправляет пользователя на страницу входа.
     """
     form_class = HabrUserRegisterForm
-    template_name = 'authapp/register.html'
-    success_url = reverse_lazy('list_articles')
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('user_login')
     model = HabrUser
