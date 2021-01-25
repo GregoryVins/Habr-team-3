@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from authapp.models import HabrUser
 
 
-class ShopUserRegisterForm(UserCreationForm):
+class HabrUserRegisterForm(UserCreationForm):
     """
     Переопределённая форма для регистрации нового пользователя.
     Включает дополнительные поля возраста и аватара.
@@ -11,9 +11,7 @@ class ShopUserRegisterForm(UserCreationForm):
     class Meta:
         model = HabrUser
         fields = (
-            'username', 'password1', 'password2', 'email',
-            'first_name', 'last_name', 'age', 'avatar'
-        )
+            'username', 'email',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
