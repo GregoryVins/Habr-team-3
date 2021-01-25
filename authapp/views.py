@@ -29,9 +29,7 @@ class UserLoginView(FormView):
     def form_valid(self, form):
         username = self.request.POST['username']
         password = self.request.POST['password']
-        print(username, password)
         userauth = authenticate(self.request, username=username, password=password)
-        print(userauth)
         if userauth is not None:
             if userauth.is_active:
                 login(self.request, userauth)
