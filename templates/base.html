@@ -59,7 +59,7 @@
                                 {{ user.username }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="#">Личный кабинет</a></li>
+                              <li><a class="dropdown-item" href="{% url 'user_update' user.pk %}">Личный кабинет</a></li>
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Выйти</a></li>
                             </ul>
