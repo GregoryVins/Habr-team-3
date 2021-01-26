@@ -5,24 +5,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title|capfirst }}</title>
+    {% block title %}<title>Your Own Habr</title>{% endblock %}
     {% block css %}
         <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
               rel="stylesheet"
               integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
               crossorigin="anonymous">
     {% endblock %}
+
     {% block js %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-                crossorigin="anonymous">
-        </script>
     {% endblock %}
 </head>
 
 <body>
 
-{% block header %}{% endblock %}
+{% block header %}
+    <header>
+        <!-- Top navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'list_articles' %}">Your Own Habr</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Найти</button>
+                </form>
+              </div>
+            </div>
+        </nav>
+
+        <!-- Bottom navbar -->
+        <nav class="container d-flex navbar navbar-expand-md mb-4">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'list_articles' %}">Все статьи</a>
+                    </li>
+                    {% for category in categories_list %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarCollapse">
+                {% if user.is_authenticated %}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" 
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="#">Личный кабинет</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                            </ul>
+                          </li>
+                    </ul>
+                {% else %}
+                    <form class="form-inline ml-auto">
+                        <a href="{% url 'login' %}" class="btn btn-outline-secondary">Войти</a>
+                        <a href="{% url 'user_register' %}" class="btn btn-primary ml-2">Зарегестрироваться</a>
+                    </form>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <hr>
+{% endblock %}
 
 {% block content %}{% endblock %}
 
@@ -51,6 +104,9 @@
         </div>
     </footer>
 {% endblock %}
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous">
+</script>
 </body>
 </html>
