@@ -12,5 +12,5 @@ class UserRegisterView(CreateView):
     """
     form_class = HabrUserRegisterForm
     template_name = 'registration/register.html'
-    success_url = reverse_lazy('user_login')
+    success_url = reverse_lazy('login')
     model = HabrUser
