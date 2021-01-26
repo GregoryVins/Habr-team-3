@@ -4,7 +4,6 @@
 {% block content %}
     <div class="container d-flex">
         <main class="h-50 w-75">
-
             {% for article in articles %}
                 <div class="container">
                     <div class="article-info">
@@ -12,7 +11,7 @@
                         <span class="author-name"></span>
                         <span class="article-publish-date"></span>
                     </div>
-                    <a href="#"><p class="display-5">{{ article.title }}</p></a>
+                    <a href="{{ article.get_absolute_url }}"><p class="display-5">{{ article.title }}</p></a>
                     <p class="text-muted">{{ article.category.title }}</p>
                     <div class="article-image">
                         <img src="#" alt="article-image" class="article-image">
@@ -21,10 +20,8 @@
                         <a href="#"><img src="#" alt="cloud"> Комментировать</a>
                         <a href="#"><img src="#" alt="like"></a>
                     </div>
-
                 </div>
             {% endfor %}
-
         </main>
 
         <aside class="h-50 w-25">
@@ -40,7 +37,6 @@
                         </div>
                     </div>
                 {% endfor %}
-
             </div>
         </aside>
 

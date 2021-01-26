@@ -61,7 +61,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                               <li><a class="dropdown-item" href="#">Личный кабинет</a></li>
                               <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                              <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Выйти</a></li>
                             </ul>
                           </li>
                     </ul>
@@ -80,23 +80,17 @@
 {% block content %}{% endblock %}
 
 {% block footer %}
-    <footer class="">
-        <div class="container d-flex justify-content-center text-center">
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container d-flex">
             <div class="w-25">
                 <p><img src="https://via.placeholder.com/140x100" alt="logotype"></p>
-                <p>Company name</p>
+                <p>Your Own Habr</p>
             </div>
             <div class="w-25">
-                <p class="h5">title</p>
-                <p><a href="#" class="text-muted">link</a></p>
-                <p><a href="#" class="text-muted">link</a></p>
-                <p><a href="#" class="text-muted">link</a></p>
-            </div>
-            <div class="w-25">
-                <p class="h5">title</p>
-                <p><a href="#" class="text-muted">link</a></p>
-                <p><a href="#" class="text-muted">link</a></p>
-                <p><a href="#" class="text-muted">link</a></p>
+                <p class="h5">Разделы</p>
+                {% for category in categories_list %}
+                    <p><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></p>
+                {% endfor %}
             </div>
         </div>
         <div class="text-center">
