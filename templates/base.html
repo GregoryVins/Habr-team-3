@@ -45,7 +45,7 @@
                     </li>
                     {% for category in categories_list %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">{{ category.title }}</a>
+                            <a class="nav-link" href="{{ category.get_absolute_url }}">{{ category.title }}</a>
                         </li>
                     {% endfor %}
                 </ul>
