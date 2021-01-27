@@ -4,8 +4,16 @@
 {% block content %}
     <div class="container">
         <div class="text-center m-5">
-            <h1 class="h3 mb-3 font-weight-normal">Аккаунт {{ user }}:</h1>
+            <div class="container d-flex text-center">
+                <div class="w-50 py-3">
+                    <a href="{% url 'user_update_account' %}" class="btn btn-dark px-5">Account</a>
+                </div>
+                <div class="w-50 py-3">
+                    <a href="#" class="btn btn-dark px-5">Articles</a>
+                </div>
+            </div>
 
+            <h1 class="h3 mb-3 font-weight-normal">Аккаунт {{ user }}:</h1>
             <form class="form-horizontal" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
