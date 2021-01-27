@@ -16,12 +16,13 @@ class UserRegisterView(CreateView):
     model = HabrUser
 
 
-class UserUpdateView(UpdateView):
+class UserAccountUpdateView(UpdateView):
     """
     Обновление личной информации.
     """
     form_class = HabrUserUpdateForm
     template_name = 'registration/update.html'
-    success_url = reverse_lazy('list_articles')
-    model = HabrUser
+    success_url = reverse_lazy('user_update_account')
 
+    def get_object(self, queryset=None):
+        return self.request.user
