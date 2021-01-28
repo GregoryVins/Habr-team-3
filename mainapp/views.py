@@ -4,7 +4,7 @@ from mainapp.models import Category, Article
 
 
 class ArticleListView(ListView):
-    model = Article
+    queryset = Article.objects.order_by('-created_at')
     template_name = 'mainapp/index.html'
     context_object_name = 'articles'
 
@@ -22,4 +22,16 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'mainapp/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        context['articles'] = Article.objects.filter(
+            category__slug=self.kwargs['slug']).order_by('-created_at')
         return context
