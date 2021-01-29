@@ -7,18 +7,18 @@
             {% for article in articles %}
                 <div class="container">
                     <div class="article-info">
-                        <img src="#" alt="author-avatar" class="author-avatar">
+                        <img src="{{ article.user.avatar }}" alt="author-avatar" class="author-avatar">
                         <span class="author-name"></span>
                         <span class="article-publish-date"></span>
                     </div>
                     <a href="{{ article.get_absolute_url }}"><p class="display-5">{{ article.title }}</p></a>
                     <p class="text-muted">{{ article.category.title }}</p>
                     <div class="article-image">
-                        <img src="#" alt="article-image" class="article-image">
+                        <img src="{{ article.image }}" alt="article-image" class="article-image">
                     </div>
                     <div class="article-stats form-control">
-                        <a href="#"><img src="#" alt="cloud"> Комментировать</a>
-                        <a href="#"><img src="#" alt="like"></a>
+                        <a href="#"><img src="{% static 'img/comment.png' %}" alt="cloud"></a>
+                        <a href="#"><img src="{% static 'img/like.png' %}" alt="like"></a>
                     </div>
                 </div>
             {% endfor %}
