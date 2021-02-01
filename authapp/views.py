@@ -3,6 +3,7 @@ from django.views.generic import CreateView, UpdateView
 
 from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm
 from authapp.models import HabrUser
+from mainapp.models import Category
 
 
 class UserRegisterView(CreateView):
@@ -26,3 +27,9 @@ class UserAccountUpdateView(UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+
+        return context
