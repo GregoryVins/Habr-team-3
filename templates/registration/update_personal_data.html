@@ -4,12 +4,15 @@
 {% block content %}
     <div class="container">
         <div class="text-center m-5">
-            <div class="container d-flex text-center">
-                <div class="w-50 py-3">
-                    <a href="{% url 'user_update_account' %}" class="btn btn-dark px-5">Account</a>
+            <div class="container d-flex justify-content-between text-center">
+                <div class="w-25 py-3">
+                    <a href="{% url 'user_statistic' %}" class="btn btn-dark px-5">Моя статистика</a>
                 </div>
-                <div class="w-50 py-3">
-                    <a href="#" class="btn btn-dark px-5">Articles</a>
+                <div class="w-25 py-3">
+                    <a href="{% url 'user_update_data' %}" class="btn btn-dark px-5">Редактировать данные</a>
+                </div>
+                <div class="w-25 py-3">
+                    <a href="{% url 'user_articles' %}" class="btn btn-dark px-5">Мои статьи</a>
                 </div>
             </div>
 
