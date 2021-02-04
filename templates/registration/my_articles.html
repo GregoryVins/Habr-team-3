@@ -16,11 +16,11 @@
                 </div>
             </div>
 
-            <a class="form-control btn btn-success my-3" href="#">Создать новую статью</a>
+            <a class="form-control btn btn-success my-3" href="{% url 'user_create_article' %}">Создать новую статью</a>
 
             {% for article in articles %}
                 {% if article.is_banned %}
-                    <a href="#" class="btn form-control">
+                    <a href="{{ article.get_absolute_url }}" class="btn form-control">
                         <div class="d-flex form-control justify-content-between py-3 bg-banned">
                             <div class="text-muted">{{ article.created_at }}</div>
                             <div class="h6">{{ article }}</div>
@@ -28,7 +28,7 @@
                         </div>
                     </a>
                 {% else %}
-                    <a href="#" class="btn form-control">
+                    <a href="{{ article.get_absolute_url }}" class="btn form-control">
                         <div class="d-flex form-control justify-content-between py-3">
                             <div class="text-muted">{{ article.created_at }}</div>
                             <div class="h6">{{ article }}</div>
