@@ -2,3 +2,7 @@
     width: 30px;
 }
 
+.bg-banned {
+    background-color: #f76363;
+    opacity: .6;
+}
