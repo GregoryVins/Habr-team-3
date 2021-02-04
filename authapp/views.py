@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
-from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm
+from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm
 from authapp.models import HabrUser
 from mainapp.models import Category, Article
 
@@ -27,7 +27,6 @@ class UserAccountStatisticView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
-
         return context
 
 
@@ -43,7 +42,6 @@ class UserAccountUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
-
         return context
 
 
@@ -55,11 +53,27 @@ class UserAccountMyArticles(ListView):
     def get_queryset(self):
         user = self.request.user
         queryset = Article.objects.filter(user=user).order_by('-created_at')
-
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
-
         return context
+
+
+class UserCreateArticleView(CreateView):
+    """Создание новой статьи."""
+    template_name = 'registration/create_article.html'
+    success_url = reverse_lazy('user_articles')
+    model = Article
+    form_class = UserCreateArticleForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+

@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from django.template.defaultfilters import slugify
+from pytils.translit import slugify
+
 from authapp.models import HabrUser
 
 
@@ -58,6 +59,5 @@ class Article(models.Model):
         return reverse('detail_article', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
+        self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
