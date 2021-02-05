@@ -4,17 +4,7 @@
 {% block content %}
     <div class="container">
         <div class="text-center m-5">
-            <div class="container d-flex justify-content-between text-center">
-                <div class="w-25 py-3">
-                    <a href="{% url 'user_statistic' %}" class="btn btn-dark px-5">Моя статистика</a>
-                </div>
-                <div class="w-25 py-3">
-                    <a href="{% url 'user_update_data' %}" class="btn btn-dark px-5">Редактировать данные</a>
-                </div>
-                <div class="w-25 py-3">
-                    <a href="{% url 'user_articles' %}" class="btn btn-dark px-5">Мои статьи</a>
-                </div>
-            </div>
+            {% include 'registration/includes/inc__account_menu.html' %}
 
             <h1 class="h3 mb-3 font-weight-normal">
                 {{ user|capfirst }} <span class="text-muted">({{ user.email }})</span>
