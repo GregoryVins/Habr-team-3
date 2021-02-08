@@ -70,3 +70,12 @@ class Article(models.Model):
 
     def get_remove_article(self):
         return reverse('user_remove_article', kwargs={'slug': self.slug})
+
+
+class Comment(models.Model):
+    """Модель комментария."""
+    user_id = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
+    article_id = models.ForeignKey(Article, on_delete=models.CASCADE)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
