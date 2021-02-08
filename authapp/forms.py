@@ -6,6 +6,7 @@ from mainapp.models import Article
 
 
 class FormControlForm(forms.ModelForm):
+    """Базовый шаблон Bootstrap класса form-control"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -31,12 +32,14 @@ class HabrUserUpdateForm(UserChangeForm, FormControlForm):
 
 
 class UserCreateArticleForm(FormControlForm):
+    """Форма создания новой статьи"""
     class Meta:
         model = Article
         fields = ('category', 'title', 'body', 'image', 'status')
 
 
 class UserUpdateArticleForm(FormControlForm):
+    """Форма редактирования статьи"""
     class Meta:
         model = Article
         fields = ('title', 'body', 'image', 'status')

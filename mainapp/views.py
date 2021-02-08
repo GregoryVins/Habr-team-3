@@ -4,6 +4,7 @@ from mainapp.models import Category, Article
 
 
 class ArticleListView(ListView):
+    """Отображение всех опубликованных статей на главной странице."""
     queryset = Article.objects.filter(status='published').order_by('-created_at')
     template_name = 'mainapp/index.html'
     context_object_name = 'articles'
@@ -15,6 +16,7 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
+    """Детальное отображение конкретной статьи."""
     model = Article
     template_name = 'mainapp/article_detail.html'
     context_object_name = 'article'
@@ -26,6 +28,7 @@ class ArticleDetailView(DetailView):
 
 
 class CategoryDetailView(DetailView):
+    """Отображение опубликованных статей конкретной категории."""
     model = Category
     template_name = 'mainapp/index.html'
 
