@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="text-center m-5">
+
+            <h1 class="h3 mt-5 font-weight-normal text-success">
+                Статья успешно снята с публикации
+            </h1>
+            <br><br>
+
+            <a href="{% url 'user_articles' %}" class="btn btn-outline-dark form-control">Вернуться к мои статьям</a>
+        </div>
+    </div>
+{% endblock %}

@@ -45,7 +45,7 @@ class Article(models.Model):
     status = models.CharField(verbose_name='Статус статьи', max_length=50, choices=ARTICLE_STATUS)
     slug = models.SlugField(null=False, unique=True)
     is_banned = models.BooleanField(verbose_name='Заблокировать статью', default=False)
-    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now=True)
+    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата обновления', auto_now=True)
 
     class Meta:
@@ -61,3 +61,12 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
+    def get_piece_body(self):
+        return self.body[:500]
+
+    def get_update_article(self):
+        return reverse('user_update_article', kwargs={'slug': self.slug})
+
+    def get_remove_article(self):
+        return reverse('user_remove_article', kwargs={'slug': self.slug})

@@ -7,7 +7,8 @@
             {% for article in articles %}
                 <div class="container">
                     <div class="article-info d-flex align-items-center">
-                        <img src="/media/{{ article.user.avatar|default:"users_avatars/default.png" }}" alt="author-avatar" class="author-avatar">
+                        <img src="/media/{{ article.user.avatar|default:"users_avatars/default.png" }}"
+                             alt="author-avatar" class="author-avatar">
                         <span class="author-name mx-3">{{ article.user.first_name }}</span>
                         <span class="article-publish-date">{{ article.created_at }}</span>
                     </div>
@@ -20,6 +21,10 @@
                             <img src="/media/{{ article.image }}" alt="article-image" class="article-image pb-3">
                         </div>
                     {% endif %}
+                    <div class="article-part-text">
+                        {{ article.get_piece_body }}...<br>
+                        <a class="btn btn-outline-dark my-3" href="{{ article.get_absolute_url }}">Читать дальше &rightarrow;</a>
+                    </div>
                     <div class="article-stats d-flex align-items-center">
                         <div><img src="{% static 'img/comment.png' %}" alt="cloud"></div>
                         <div class="mx-3"><img src="{% static 'img/like.png' %}" alt="like"></div>

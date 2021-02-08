@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
-from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm
+from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm, UserUpdateArticleForm
 from authapp.models import HabrUser
 from mainapp.models import Category, Article
 
@@ -77,3 +77,31 @@ class UserCreateArticleView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
+class UserUpdateArticleView(UpdateView):
+    """Редактирвоание статьи."""
+    model = Article
+    form_class = UserUpdateArticleForm
+    template_name = 'registration/create_article.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
+
+
+class UserRemoveArticleView(UpdateView):
+    model = Article
+    fields = ('status',)
+    template_name = 'registration/success_remove.html'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+        obj.status = 'Черновик'
+        obj.save()
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
