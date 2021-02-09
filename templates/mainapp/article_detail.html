@@ -31,20 +31,21 @@
                             {{ article.body }}
                             <hr/>
 
-                            <h3>Комментарии</h3>
-                            {% for comment in all_comments %}
+                            <h3>Комментарии (<span class="comments-count">{{ article.comment_set.all.count }}</span>)</h3>
+                            {% for comment in article.comment_set.all %}
                                 <div class="media mb-3">
-                                    <div class="text-center">
-                                        <img class="mr-3 rounded-circle" src="#" alt="" width="100" height="100">
+                                    <div class="">
+                                        <img class="mr-3 rounded-circle author-avatar" src="/media/{{ article.user.avatar|default:'users_avatars/default.png' }}" alt="" width="100" height="100">
                                         <h6 class="mt-1 mb-0 mr-3">{{ comment.user }}</h6>
                                     </div>
                                     <div class="media-body">
                                         <p class="mt-3 mb-2">{{ comment.body }}</p>
                                         <time class="timeago text-muted">{{ comment.created_at }}</time>
-                                        <a class="float-right" href="#"><span class="fa fa-reply"></span> Ответить</a>
-
+                                        {% if user.is_authenticated %}
+                                            <a class="float-right" href="#"><span class="fa fa-reply"></span> Ответить</a>
+                                        {% endif %}
                                         <!-- Reply -->
-                                        <div class="media mt-3">
+                                        <!-- <div class="media mt-3">
                                             <div class="pr-3 text-center">
                                                 <img class="mr-3 rounded-circle" src="#" alt="" width="100"
                                                      height="100">
@@ -56,11 +57,13 @@
                                                 <a class="float-right" href="#"><span class="fa fa-reply"></span>
                                                     Ответить</a>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
+                                    <br>
                                 </div>
                             {% endfor %}
-
+                            
+                            <hr>
                             {% if user.is_authenticated %}
                                 <div class="mt-5">
                                     <h5>Написать комментарий</h5>
@@ -68,6 +71,8 @@
                                               placeholder="Написать комментарий..."></textarea>
                                     <a href="#" class="btn btn-success mt-3">Отправить</a>
                                 </div>
+                            {% else %}
+                                <h6 class="text-center text-secondary">Только авторизованные пользователи могут оставлять комментарии.</h6>
                             {% endif %}
                         </div>
                     </article>

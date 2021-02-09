@@ -70,3 +70,21 @@ class Article(models.Model):
 
     def get_remove_article(self):
         return reverse('user_remove_article', kwargs={'slug': self.slug})
+
+
+class Comment(models.Model):
+    """Модель комментария."""
+    body = models.TextField(verbose_name='Текст комментария')
+    user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    is_active = models.BooleanField(verbose_name='Комментарий активен', default=True)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        return f'Комментарий пользователя "{self.user}" к статье "{self.article}"'

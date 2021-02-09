@@ -13,5 +13,6 @@
 }
 
 .author-avatar {
+    max-width: 5vh;
     max-height: 5vh;
 }
