@@ -18,7 +18,7 @@
                             <h1 class="card-title">{{ article.title }}</h1>
                         </header>
 
-                        {% if article.user == user %}
+                        {% if article.user == user or user.is_superuser %}
                             <div class="d-flex justify-content-center">
                                 <a href="{{ article.get_update_article }}" class="btn btn-outline-success px-5 mx-5 my-3">Редактировать статью</a>
                                 <a href="{{ article.get_remove_article }}" class="btn btn-outline-danger px-5 mx-5 my-3">Снять с публикации</a>

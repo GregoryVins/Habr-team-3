@@ -91,6 +91,10 @@ class UserUpdateArticleView(UpdateView):
 
 
 class UserRemoveArticleView(UpdateView):
+    """
+    Снятие статьи с публикации.
+    Изменение статуса с Опубликована на Черновик.
+    """
     model = Article
     fields = ('status',)
     template_name = 'registration/success_remove.html'
