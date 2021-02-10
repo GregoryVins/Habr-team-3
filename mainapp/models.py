@@ -81,7 +81,6 @@ class Comment(models.Model):
     is_active = models.BooleanField(verbose_name='Комментарий активен', default=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
-
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'

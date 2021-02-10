@@ -9,7 +9,7 @@
                     <div class="article-info d-flex align-items-center">
                         <img src="/media/{{ article.user.avatar|default:"users_avatars/default.png" }}"
                              alt="author-avatar" class="author-avatar">
-                        <span class="author-name mx-3">{{ article.user.first_name }}</span>
+                        <span class="author-name mx-3"><b>{{ article.user.username }}</b></span>
                         <span class="article-publish-date">{{ article.created_at }}</span>
                     </div>
                     <a href="{{ article.get_absolute_url }}" class="text-decoration-none">
@@ -26,8 +26,14 @@
                         <a class="btn btn-outline-dark my-3" href="{{ article.get_absolute_url }}">Читать дальше &rightarrow;</a>
                     </div>
                     <div class="article-stats d-flex align-items-center">
-                        <div><img src="{% static 'img/comment.png' %}" alt="cloud"></div>
-                        <div class="mx-3"><img src="{% static 'img/like.png' %}" alt="like"></div>
+                        <div>
+                            <img src="{% static 'img/comment.png' %}" alt="cloud">
+                            <span class="text-muted h6">{{ article.comment_set.count }}</span>
+                        </div>
+                        <div class="mx-4">
+                            <img src="{% static 'img/like.png' %}" alt="like">
+                            {# {{ article.like_set.count }}  // IT WILL BE COMMENTS COUNT #}
+                        </div>
                     </div>
                 </div>
                 <hr>
