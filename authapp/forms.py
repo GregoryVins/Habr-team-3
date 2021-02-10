@@ -1,5 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from authapp.models import HabrUser
 from mainapp.models import Article
@@ -7,6 +7,7 @@ from mainapp.models import Article
 
 class FormControlForm(forms.ModelForm):
     """Базовый шаблон Bootstrap класса form-control"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -26,6 +27,8 @@ class HabrUserRegisterForm(UserCreationForm, FormControlForm):
 
 
 class HabrUserUpdateForm(UserChangeForm, FormControlForm):
+    """Форма редактирования личных данных пользователя."""
+
     class Meta:
         model = HabrUser
         fields = ('email', 'first_name', 'last_name', 'age', 'avatar', 'bio')
@@ -33,6 +36,7 @@ class HabrUserUpdateForm(UserChangeForm, FormControlForm):
 
 class UserCreateArticleForm(FormControlForm):
     """Форма создания новой статьи"""
+
     class Meta:
         model = Article
         fields = ('category', 'title', 'body', 'image', 'status')
@@ -40,6 +44,7 @@ class UserCreateArticleForm(FormControlForm):
 
 class UserUpdateArticleForm(FormControlForm):
     """Форма редактирования статьи"""
+
     class Meta:
         model = Article
         fields = ('title', 'body', 'image', 'status')
