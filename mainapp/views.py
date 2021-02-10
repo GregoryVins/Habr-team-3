@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
 from mainapp.forms import CommentForm
 from mainapp.models import Category, Article, Comment
@@ -56,3 +56,14 @@ class CreateCommentView(CreateView):
         form.user = self.request.user
         form.article = article
         return super().form_valid(form)
+
+
+class DeleteCommentView(DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        article = self.object.article
+        return reverse('detail_article', kwargs={'slug': article.slug})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)

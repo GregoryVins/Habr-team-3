@@ -47,8 +47,17 @@
                                         <p class="mt-3 mb-2">{{ comment.body }}</p>
                                         <time class="timeago text-muted">{{ comment.created_at }}</time>
                                         {% if user.is_authenticated %}
-                                            <a class="float-right mx-3 text-decoration-none" href="#">Ответить
-                                            </a>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <a class="float-right text-decoration-none" href="#">Ответить</a>
+                                                {% if user == comment.user or user.is_superuser %}
+                                                    <form method="POST" action="{% url "delete_comment" comment.id %}">
+                                                        {% csrf_token %}
+                                                        <button class="btn text-danger" type="submit" value="Удалить">
+                                                            Удалить
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                            </div>
                                         {% endif %}
                                         <!-- Reply -->
                                         <!-- <div class="media mt-3">
