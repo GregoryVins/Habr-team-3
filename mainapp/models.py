@@ -74,7 +74,6 @@ class Article(models.Model):
 
 class Comment(models.Model):
     """Модель комментария."""
-
     body = models.TextField(verbose_name='Текст комментария')
     user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
@@ -82,9 +81,10 @@ class Comment(models.Model):
     is_active = models.BooleanField(verbose_name='Комментарий активен', default=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
+
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-        return f'Комментарий пользователя "{self.user}" к статье "{self.article}"'
+        return f'Пользователь: "{self.user}", статья: "{self.article}", комментарий: "{self.body[:20]}"'
