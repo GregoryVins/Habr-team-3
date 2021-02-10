@@ -1,10 +1,12 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
-from mainapp.models import Category, Article
+from mainapp.models import Category, Article, Comment
+from mainapp.forms import CommentForm
+
+from django.urls import reverse
 
 
 class ArticleListView(ListView):
-    """Отображение всех опубликованных статей на главной странице."""
     queryset = Article.objects.filter(status='published').order_by('-created_at')
     template_name = 'mainapp/index.html'
     context_object_name = 'articles'
@@ -16,7 +18,6 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
-    """Детальное отображение конкретной статьи."""
     model = Article
     template_name = 'mainapp/article_detail.html'
     context_object_name = 'article'
@@ -28,7 +29,6 @@ class ArticleDetailView(DetailView):
 
 
 class CategoryDetailView(DetailView):
-    """Отображение опубликованных статей конкретной категории."""
     model = Category
     template_name = 'mainapp/index.html'
 
@@ -38,3 +38,20 @@ class CategoryDetailView(DetailView):
         context['articles'] = Article.objects.filter(
             category__slug=self.kwargs['slug'], status='published').order_by('-created_at')
         return context
+
+
+class CreateCommentView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    
+    def get_success_url(self):
+        article = Article.objects.get(id=self.kwargs['pk'])
+        return reverse('detail_article', kwargs={'slug': article.slug})
+
+    def form_valid(self, form):
+        article = Article.objects.get(id=self.kwargs['pk'])
+        form = form.save(commit=False)
+        form.user = self.request.user
+        form.article = article
+        return super().form_valid(form)
+ 
