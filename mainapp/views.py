@@ -45,7 +45,7 @@ class CategoryDetailView(DetailView):
 class CreateCommentView(CreateView):
     model = Comment
     form_class = CommentForm
-
+    
     def get_success_url(self):
         article = Article.objects.get(id=self.kwargs['pk'])
         return reverse('detail_article', kwargs={'slug': article.slug})
@@ -55,6 +55,8 @@ class CreateCommentView(CreateView):
         form = form.save(commit=False)
         form.user = self.request.user
         form.article = article
+        if self.request.POST.get("parent", None):
+            form.parent_id = int(self.request.POST.get("parent"))
         return super().form_valid(form)
 
 

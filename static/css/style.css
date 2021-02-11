@@ -16,3 +16,21 @@
     max-width: 5vh;
     max-height: 5vh;
 }
+
+.left-indent {
+    padding-left: 50px;
+}
+
+.hr-dashed {
+	margin: 20px 0;
+	padding: 0;
+	height: 0;
+	border: none;
+	border-top: 2px dashed #ddd;
+}
+
+.comment-quote {
+    background-color: #f8f9fa;
+    border-left: 3px solid gainsboro;
+    padding-left: 10px;
+}
