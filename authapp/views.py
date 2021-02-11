@@ -1,9 +1,18 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
+from django.contrib.auth.views import LoginView
 
 from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm, UserUpdateArticleForm
 from authapp.models import HabrUser
 from mainapp.models import Category, Article
+
+
+class UserLoginView(LoginView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
 
 
 class UserRegisterView(CreateView):
@@ -15,6 +24,11 @@ class UserRegisterView(CreateView):
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
     model = HabrUser
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
 
 
 class UserAccountStatisticView(DetailView):
@@ -49,6 +63,7 @@ class UserAccountMyArticles(ListView):
     """Список всех статей."""
     template_name = 'registration/my_articles.html'
     context_object_name = 'articles'
+    paginate_by = 5
 
     def get_queryset(self):
         user = self.request.user

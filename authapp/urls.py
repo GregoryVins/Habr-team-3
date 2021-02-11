@@ -1,9 +1,10 @@
 from django.urls import path
 
-from authapp.views import UserRegisterView, UserAccountUpdateView, UserAccountStatisticView, UserAccountMyArticles, \
+from authapp.views import UserLoginView, UserRegisterView, UserAccountUpdateView, UserAccountStatisticView, UserAccountMyArticles, \
     UserCreateArticleView, UserUpdateArticleView, UserRemoveArticleView
 
 urlpatterns = [
+    path('login/', UserLoginView.as_view(), name='login'),
     path('register/', UserRegisterView.as_view(), name='user_register'),
     path('account/', UserAccountStatisticView.as_view(), name='user_statistic'),
     path('account/update/', UserAccountUpdateView.as_view(), name='user_update_data'),

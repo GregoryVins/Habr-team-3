@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic.list import MultipleObjectMixin
 
 from mainapp.forms import CommentForm
 from mainapp.models import Category, Article, Comment
@@ -9,7 +10,7 @@ class ArticleListView(ListView):
     """Отображение всех статей на главной странице с статусом Опубликовано."""
     queryset = Article.objects.filter(status='published').order_by('-created_at')
     template_name = 'mainapp/index.html'
-    context_object_name = 'articles'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,16 +30,17 @@ class ArticleDetailView(DetailView):
         return context
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(DetailView, MultipleObjectMixin):
     """Отображение опубликованных статей конкретной категории."""
     model = Category
     template_name = 'mainapp/index.html'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories_list'] = Category.objects.all()
-        context['articles'] = Article.objects.filter(
+        object_list = Article.objects.filter(
             category__slug=self.kwargs['slug'], status='published').order_by('-created_at')
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['categories_list'] = Category.objects.all()
         return context
 
 
