@@ -79,11 +79,11 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     is_active = models.BooleanField(verbose_name='Комментарий активен', default=True)
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
     def __str__(self):
-        return f'Пользователь: "{self.user}", статья: "{self.article}", комментарий: "{self.body[:20]}"'
+        return f'Пользователь: "{self.user}", статья: "{self.article}", комментарий: "{self.body[:20]}..."'
