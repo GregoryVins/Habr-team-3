@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% load widget_tweaks %}
+
 {% block content %}
     <div class="container">
         <div class="text-center m-5">
             <h1 class="h3 mb-3 font-weight-normal">Вход:</h1>
 
+            {% if form.errors %}
+                <p>Неверное имя пользователя или пароль. Пожалуйста, попробуйте еще раз.</p>
+            {% endif %}
+
             <form class="form-horizontal" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <p>
+                    {{ form.username.label_tag }}
+                    {{ form.username|add_class:"form-control" }}
+                </p>
+                <p>
+                    {{ form.password.label_tag }}
+                    {{ form.password|add_class:"form-control" }}
+                </p>
                 <input type="submit" value="Вход" class="form-control btn btn-success">
             </form>
             <br><br>

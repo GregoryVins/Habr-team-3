@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container d-flex">
         <main class="h-50 w-75">
-            {% for article in articles %}
+            {% for article in object_list %}
                 <div class="container">
                     <div class="article-info d-flex align-items-center">
                         <img src="/media/{{ article.user.avatar|default:"users_avatars/default.png" }}"
@@ -38,6 +38,9 @@
                 </div>
                 <hr>
             {% endfor %}
+            {% if is_paginated %}
+                {% include "includes/pagination.html" %}
+            {% endif %}
         </main>
 
         <aside class="h-50 w-25">
