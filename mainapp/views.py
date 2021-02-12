@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.views.generic.list import MultipleObjectMixin
@@ -45,12 +46,16 @@ class CategoryDetailView(DetailView, MultipleObjectMixin):
 
 
 class CreateCommentView(CreateView):
+    """Создание комментариев."""
     model = Comment
     form_class = CommentForm
-    
+
     def get_success_url(self):
         article = Article.objects.get(id=self.kwargs['pk'])
         return reverse('detail_article', kwargs={'slug': article.slug})
+
+    def form_invalid(self, form):
+        return HttpResponseRedirect(self.get_success_url())
 
     def form_valid(self, form):
         article = Article.objects.get(id=self.kwargs['pk'])
@@ -63,6 +68,7 @@ class CreateCommentView(CreateView):
 
 
 class DeleteCommentView(DeleteView):
+    """Удаление комментариев."""
     model = Comment
 
     def get_success_url(self):
