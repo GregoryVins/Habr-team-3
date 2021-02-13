@@ -71,6 +71,9 @@ class Article(models.Model):
     def get_remove_article(self):
         return reverse('user_remove_article', kwargs={'slug': self.slug})
 
+    def get_banned_article(self):
+        return reverse('ban_article', kwargs={'slug': self.slug})
+
 
 class Comment(models.Model):
     """Модель комментария."""
