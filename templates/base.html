@@ -60,8 +60,11 @@
                                 {{ user.username }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'user_statistic' %}">Личный кабинет</a>
-                                </li>
+                                <li><a class="dropdown-item" href="{% url 'user_statistic' %}">Личный кабинет</a></li>
+                                {% if user.is_superuser %}
+                                    <li><a class="dropdown-item" href="/admin/">
+                                        Панель администратора</a></li>
+                                {% endif %}
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -94,7 +97,8 @@
             <div class="w-25">
                 <p class="h5">Разделы</p>
                 {% for category in categories_list %}
-                    <p><a href="{{ category.get_absolute_url }}" class="text-decoration-none">{{ category.title }}</a></p>
+                    <p><a href="{{ category.get_absolute_url }}" class="text-decoration-none">{{ category.title }}</a>
+                    </p>
                 {% endfor %}
             </div>
         </div>
