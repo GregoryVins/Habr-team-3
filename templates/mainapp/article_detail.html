@@ -32,6 +32,13 @@
                                    class="btn btn-outline-danger px-5 mx-5 my-3">Снять с публикации</a>
                             </div>
                         {% endif %}
+                        {% if user.is_superuser and user != article.user %}
+                            <div class="d-flex justify-content-center">
+                                <a href="{{ article.get_banned_article }}"
+                                   class="btn btn-outline-danger px-5 mx-5 my-3">
+                                    Забанить статью</a>
+                            </div>
+                        {% endif %}
 
                         <img class="card-img" src="/media/{{ article.image }}" alt=""/>
                         <div class="card-body">
@@ -41,64 +48,71 @@
                             </h3>
                             {% for comment in article.comment_set.all %}
                                 {% if not comment.parent_id %}
-                                <hr/>
-                                <div class="article-info d-flex align-items-center">
-                                    <img src="/media/{{ comment.user.avatar|default:'users_avatars/default.png' }}"
-                                         alt="author-avatar" class="mr-3 rounded-circle author-avatar">
-                                    <h6 class="h6 author-name mx-3">{{ comment.user.username }}</h6>
-                                </div>
+                                    <hr/>
+                                    <div class="article-info d-flex align-items-center">
+                                        <img src="/media/{{ comment.user.avatar|default:'users_avatars/default.png' }}"
+                                             alt="author-avatar" class="mr-3 rounded-circle author-avatar">
+                                        <h6 class="h6 author-name mx-3">{{ comment.user.username }}</h6>
+                                    </div>
 
-                                <div class="media mb-3">
-                                    <div class="media-body body-comment-{{ comment.id }}">
-                                        <p class="mt-3 mb-2">{{ comment.body }}</p>
-                                        <time class="timeago text-muted">{{ comment.created_at }}</time>
-                                        {% if user.is_authenticated %}
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <a class="float-right text-decoration-none reply-button" href="#comment-{{ comment.id }}" 
-                                                    onclick="addForm('{{ article.id }}', '{{ comment.id }}', '{{ comment.body }}')">
-                                                    Ответить
-                                                </a>
-                                                {% if user == comment.user or user.is_superuser %}
-                                                    <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                                                        {% csrf_token %}
-                                                        <button class="btn text-danger" type="submit" value="Удалить">
-                                                            Удалить
-                                                        </button>
-                                                    </form>
-                                                {% endif %}
-                                            </div>
-                                        {% endif %}
-
-                                        <!-- Replies -->
-                                        {% for reply in comment.comment_set.all %}
-                                            <hr class="hr-dashed">
-                                            <div class="media mb-3 left-indent" id="comment-{{ reply.id }}">
-                                                <div class="article-info d-flex align-items-center" id="comment-{{ reply.id }}">
-                                                    <img src="/media/{{ comment.user.avatar|default:'users_avatars/default.png' }}"
-                                                         alt="author-avatar" class="mr-3 rounded-circle author-avatar">
-                                                    <h6 class="h6 author-name mx-3">{{ reply.user.username }}</h6>
-                                                </div>
-                                                <div class="media-body body-comment-{{ reply.id }}">
-                                                    <p class="mt-3 mb-2">{{ reply.body }}</p>
-                                                    <time class="timeago text-muted">{{ comment.created_at }}</time>
-                                                    {% if user.is_authenticated %}
-                                                        <div class="d-flex align-items-center justify-content-end">
-                                                            {% if user == reply.user or user.is_superuser %}
-                                                                <form method="POST" action="{% url 'delete_comment' reply.id %}">
-                                                                    {% csrf_token %}
-                                                                    <button class="btn text-danger" type="submit" value="Удалить">
-                                                                        Удалить
-                                                                    </button>
-                                                                </form>
-                                                            {% endif %}
-                                                        </div>
+                                    <div class="media mb-3">
+                                        <div class="media-body body-comment-{{ comment.id }}">
+                                            <p class="mt-3 mb-2">{{ comment.body }}</p>
+                                            <time class="timeago text-muted">{{ comment.created_at }}</time>
+                                            {% if user.is_authenticated %}
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <a class="float-right text-decoration-none reply-button"
+                                                       href="#comment-{{ comment.id }}"
+                                                       onclick="addForm('{{ article.id }}', '{{ comment.id }}', '{{ comment.body }}')">
+                                                        Ответить
+                                                    </a>
+                                                    {% if user == comment.user or user.is_superuser %}
+                                                        <form method="POST"
+                                                              action="{% url 'delete_comment' comment.id %}">
+                                                            {% csrf_token %}
+                                                            <button class="btn text-danger" type="submit"
+                                                                    value="Удалить">
+                                                                Удалить
+                                                            </button>
+                                                        </form>
                                                     {% endif %}
                                                 </div>
-                                            </div>
-                                        {% endfor %}
+                                            {% endif %}
+
+                                            <!-- Replies -->
+                                            {% for reply in comment.comment_set.all %}
+                                                <hr class="hr-dashed">
+                                                <div class="media mb-3 left-indent" id="comment-{{ reply.id }}">
+                                                    <div class="article-info d-flex align-items-center"
+                                                         id="comment-{{ reply.id }}">
+                                                        <img src="/media/{{ comment.user.avatar|default:'users_avatars/default.png' }}"
+                                                             alt="author-avatar"
+                                                             class="mr-3 rounded-circle author-avatar">
+                                                        <h6 class="h6 author-name mx-3">{{ reply.user.username }}</h6>
+                                                    </div>
+                                                    <div class="media-body body-comment-{{ reply.id }}">
+                                                        <p class="mt-3 mb-2">{{ reply.body }}</p>
+                                                        <time class="timeago text-muted">{{ comment.created_at }}</time>
+                                                        {% if user.is_authenticated %}
+                                                            <div class="d-flex align-items-center justify-content-end">
+                                                                {% if user == reply.user or user.is_superuser %}
+                                                                    <form method="POST"
+                                                                          action="{% url 'delete_comment' reply.id %}">
+                                                                        {% csrf_token %}
+                                                                        <button class="btn text-danger" type="submit"
+                                                                                value="Удалить">
+                                                                            Удалить
+                                                                        </button>
+                                                                    </form>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <br>
                                     </div>
-                                    <br>
-                                </div>
                                 {% endif %}
                             {% endfor %}
 

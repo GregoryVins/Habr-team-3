@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
 
 from mainapp.forms import CommentForm
@@ -9,7 +9,7 @@ from mainapp.models import Category, Article, Comment
 
 class ArticleListView(ListView):
     """Отображение всех статей на главной странице с статусом Опубликовано."""
-    queryset = Article.objects.filter(status='published').order_by('-created_at')
+    queryset = Article.objects.filter(status='published', is_banned=False).order_by('-created_at')
     template_name = 'mainapp/index.html'
     paginate_by = 5
 
@@ -39,7 +39,7 @@ class CategoryDetailView(DetailView, MultipleObjectMixin):
 
     def get_context_data(self, **kwargs):
         object_list = Article.objects.filter(
-            category__slug=self.kwargs['slug'], status='published').order_by('-created_at')
+            category__slug=self.kwargs['slug'], status='published', is_banned=False).order_by('-created_at')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['categories_list'] = Category.objects.all()
         return context
@@ -77,3 +77,20 @@ class DeleteCommentView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+
+class BannedArticleView(UpdateView):
+    model = Article
+    template_name = 'mainapp/banned_success.html'
+    fields = ('is_banned',)
+
+    def get_object(self, queryset=None):
+        obj = super().get_object()
+        obj.is_banned = True
+        obj.save()
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_list'] = Category.objects.all()
+        return context
