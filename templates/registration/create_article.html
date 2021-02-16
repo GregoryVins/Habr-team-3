@@ -11,7 +11,11 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <br><br>
-                <input type="submit" value="Сохранить" class="form-control btn btn-success">
+                <input type="submit" name="type" value="Сохранить" class="w-25 btn btn-secondary">
+                <input type="submit" name="type" value="Опубликовать" class="w-25 btn btn-success">
+                {% if article %}
+                    <input type="submit" name="type" value="Удалить" class="w-25 btn btn-danger">
+                {% endif %}
             </form>
 
         </div>

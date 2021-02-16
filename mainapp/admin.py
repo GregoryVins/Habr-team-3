@@ -8,6 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
+    list_filter = ('status',)
 
 
 admin.site.register(Category, CategoryAdmin)

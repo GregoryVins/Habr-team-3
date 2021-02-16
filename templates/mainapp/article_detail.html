@@ -24,7 +24,10 @@
                             <h1 class="card-title">{{ article.title }}</h1>
                         </header>
 
-                        {% if article.user == user %}
+                        {% if article.user == user and article.status == 'draft' %}
+                            <a href="{{ article.get_update_article }}"
+                               class="btn btn-outline-success px-5 mx-5 my-3">Редактировать статью</a>
+                        {% elif article.user == user and article.status == 'published' %}
                             <div class="d-flex justify-content-center">
                                 <a href="{{ article.get_update_article }}"
                                    class="btn btn-outline-success px-5 mx-5 my-3">Редактировать статью</a>
@@ -32,6 +35,7 @@
                                    class="btn btn-outline-danger px-5 mx-5 my-3">Снять с публикации</a>
                             </div>
                         {% endif %}
+
                         {% if user.is_superuser and user != article.user %}
                             <div class="d-flex justify-content-center">
                                 <a href="{{ article.get_banned_article }}"
