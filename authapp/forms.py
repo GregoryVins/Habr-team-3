@@ -39,7 +39,7 @@ class UserCreateArticleForm(FormControlForm):
 
     class Meta:
         model = Article
-        fields = ('category', 'title', 'body', 'image', 'status')
+        fields = ('category', 'title', 'body', 'image')
 
 
 class UserUpdateArticleForm(FormControlForm):
@@ -47,4 +47,4 @@ class UserUpdateArticleForm(FormControlForm):
 
     class Meta:
         model = Article
-        fields = ('title', 'body', 'image', 'status')
+        fields = ('title', 'body', 'image')

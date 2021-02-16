@@ -67,7 +67,7 @@ class UserAccountMyArticles(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Article.objects.filter(user=user).order_by('-created_at')
+        queryset = Article.objects.filter(user=user).exclude(status='hidden').order_by('-created_at')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -90,6 +90,11 @@ class UserCreateArticleView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        if self.request.method == 'POST':
+            if self.request.POST['type'] == 'Сохранить':
+                form.instance.status = 'draft'
+            elif self.request.POST['type'] == 'Опубликовать':
+                form.instance.status = 'moderation'
         return super().form_valid(form)
 
 
@@ -104,6 +109,16 @@ class UserUpdateArticleView(UpdateView):
         context['categories_list'] = Category.objects.all()
         return context
 
+    def form_valid(self, form):
+        if self.request.method == 'POST':
+            if self.request.POST['type'] == 'Сохранить':
+                form.instance.status = 'draft'
+            elif self.request.POST['type'] == 'Опубликовать':
+                form.instance.status = 'moderation'
+            elif self.request.POST['type'] == 'Удалить':
+                form.instance.status = 'hidden'
+        return super().form_valid(form)
+
 
 class UserRemoveArticleView(UpdateView):
     """
@@ -116,7 +131,7 @@ class UserRemoveArticleView(UpdateView):
 
     def get_object(self, queryset=None):
         obj = super().get_object()
-        obj.status = 'Черновик'
+        obj.status = 'draft'
         obj.save()
         return obj
 

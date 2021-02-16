@@ -34,7 +34,8 @@ class Article(models.Model):
     ARTICLE_STATUS = [
         ('published', 'Опубликована'),
         ('draft', 'Черновик'),
-        ('hidden', 'Скрыта'),
+        ('hidden', 'Удалено'),
+        ('moderation', 'На модерации'),
     ]
 
     user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
