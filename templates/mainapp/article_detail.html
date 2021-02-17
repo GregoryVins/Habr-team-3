@@ -47,6 +47,14 @@
                         <img class="card-img" src="/media/{{ article.image }}" alt=""/>
                         <div class="card-body">
                             {{ article.body }}
+                            <br>
+                            <br>
+                            <br>
+
+                            <a href="{{ article.get_like }}" class="article-stats py-5 text-decoration-none text-secondary">
+                                <img src="{% static 'img/like.png' %}" alt="like"> {{ article.liked_by.count }}
+                            </a>
+
                             <h3 class="mt-5">
                                 Комментарии (<span class="comments-count">{{ article.comment_set.all.count }}</span>)
                             </h3>
@@ -119,7 +127,6 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
-
                             <hr>
                             {% if user.is_authenticated %}
                                 <form action="{% url 'create_comment' article.id %}" method="POST">

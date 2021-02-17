@@ -1,6 +1,7 @@
+from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
-from django.contrib.auth.views import LoginView
 
 from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm, UserUpdateArticleForm
 from authapp.models import HabrUser
@@ -109,6 +110,11 @@ class UserUpdateArticleView(UpdateView):
         context['categories_list'] = Category.objects.all()
         return context
 
+    def get_success_url(self):
+        if self.request.POST['type'] == 'Удалить':
+            self.success_url = reverse_lazy('user_articles')
+        return super().get_success_url()
+
     def form_valid(self, form):
         if self.request.method == 'POST':
             if self.request.POST['type'] == 'Сохранить':
@@ -139,3 +145,13 @@ class UserRemoveArticleView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
         return context
+
+
+def add_like(request, pk):
+    """Добавляет новый лайк."""
+    article = Article.objects.get(pk=pk)
+    if request.user in article.liked_by.all():
+        article.liked_by.remove(request.user)
+        return HttpResponseRedirect(article.get_absolute_url())
+    article.liked_by.add(request.user)
+    return HttpResponseRedirect(article.get_absolute_url())

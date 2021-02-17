@@ -48,6 +48,7 @@ class Article(models.Model):
     is_banned = models.BooleanField(verbose_name='Заблокировать статью', default=False)
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата обновления', auto_now=True)
+    liked_by = models.ManyToManyField(HabrUser, related_name='liked_articles', blank=True)
 
     class Meta:
         verbose_name = 'Статья'
@@ -74,6 +75,9 @@ class Article(models.Model):
 
     def get_banned_article(self):
         return reverse('ban_article', kwargs={'slug': self.slug})
+
+    def get_like(self):
+        return reverse('add_like', kwargs={'pk': self.pk})
 
 
 class Comment(models.Model):
