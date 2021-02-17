@@ -51,9 +51,17 @@
                             <br>
                             <br>
 
-                            <a href="{{ article.get_like }}" class="article-stats py-5 text-decoration-none text-secondary">
-                                <img src="{% static 'img/like.png' %}" alt="like"> {{ article.liked_by.count }}
-                            </a>
+                            <div>
+                                <span id="like" onclick="addLike()" class="article-stats py-5 text-decoration-none text-secondary">
+                                    <i class="far fa-thumbs-up 
+                                        {% if user_add_like %}
+                                            like-image-blue
+                                        {% else %}
+                                            like-image
+                                        {% endif %}" id="like-image"></i>
+                                </span>
+                                <span id="likes-count">{{ article.liked_by.count }}</span>
+                            </div>
 
                             <h3 class="mt-5">
                                 Комментарии (<span class="comments-count">{{ article.comment_set.all.count }}</span>)
@@ -165,6 +173,7 @@
         </div>
     </main>
 
+
     <!-- Additional JS -->
     <script>
         function addForm(articleId, commentId, commentBody) {
@@ -191,6 +200,28 @@
             if ($('form').is('.comment' + commentId + '-reply-form') == false) {
                 $(comment).append(replyForm);
             }
+        }
+    
+        function addLike() {
+            $.ajax({
+                    type: 'GET',
+                    url: '{{ article.get_like }}',
+                    data: '',
+                    success: function(response) {
+                        $('#likes-count').html(`${response.likes_info.likes_count}`);
+                        
+                        if (`${response.likes_info.user_add_like}` == 'true') {
+                            $('#like-image').removeClass('like-image');
+                            $('#like-image').addClass('like-image-blue');
+                        } else {
+                            $('#like-image').removeClass('like-image-blue');
+                            $('#like-image').addClass('like-image');
+                        }
+                    },
+                    error: function(response){
+                        console.log(response)
+                    }
+            })
         }
     </script>
 {% endblock %}
