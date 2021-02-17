@@ -34,3 +34,16 @@
     border-left: 3px solid gainsboro;
     padding-left: 10px;
 }
+
+#like {
+    cursor: pointer;
+}
+
+.like-image {
+    font-size: 25px;
+}
+
+.like-image-blue {
+    color: #4283fd;
+    font-size: 25px;
+}

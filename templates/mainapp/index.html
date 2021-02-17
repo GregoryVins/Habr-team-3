@@ -32,7 +32,7 @@
                         </div>
                         <div class="mx-4">
                             <img src="{% static 'img/like.png' %}" alt="like">
-                            {# {{ article.like_set.count }}  // IT WILL BE COMMENTS COUNT #}
+                            <span class="text-muted h6">{{ article.liked_by.count }}</span>
                         </div>
                     </div>
                 </div>

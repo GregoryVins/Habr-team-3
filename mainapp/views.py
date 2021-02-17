@@ -28,6 +28,14 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+
+        # Проверка, поставил ли текущий пользователь "лайк" статье.
+        article = self.get_object()
+        if self.request.user in article.liked_by.all():
+            context['user_add_like'] = True
+        else:
+            context['user_add_like'] = False
+
         return context
 
 

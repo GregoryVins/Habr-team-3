@@ -1,6 +1,8 @@
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DetailView, ListView
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
 from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm, UserUpdateArticleForm
 from authapp.models import HabrUser
@@ -109,6 +111,11 @@ class UserUpdateArticleView(UpdateView):
         context['categories_list'] = Category.objects.all()
         return context
 
+    def get_success_url(self):
+        if self.request.POST['type'] == 'Удалить':
+            self.success_url = reverse_lazy('user_articles')
+        return super().get_success_url()
+
     def form_valid(self, form):
         if self.request.method == 'POST':
             if self.request.POST['type'] == 'Сохранить':
@@ -139,3 +146,27 @@ class UserRemoveArticleView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
         return context
+
+
+class AddLikeView(View):
+    """
+    Добавление "лайка".
+    Удаление в случае, если "лайк" уже существует.
+    """
+    def get(self, request, *args, **kwargs):
+        article = Article.objects.get(pk=self.kwargs['pk'])
+        try:
+            if request.user in article.liked_by.all():
+                article.liked_by.remove(request.user)
+                user_add_like = 'false'
+            else:
+                article.liked_by.add(request.user)
+                user_add_like = 'true'
+        except:
+            return JsonResponse({'success': False}, status=400)
+        
+        likes_info = {
+            'likes_count': article.liked_by.count(),
+            'user_add_like': user_add_like
+        }
+        return JsonResponse({'likes_info': likes_info}, status=200)
