@@ -148,20 +148,6 @@ class UserRemoveArticleView(UpdateView):
         return context
 
 
-# class AddLikeView(View):
-#     """
-#     Добавление "лайка".
-#     Удаление в случае, если "лайк" уже существует.
-#     """
-#     def get(self, request, *args, **kwargs):
-#         article = Article.objects.get(pk=self.kwargs['pk'])
-#         if request.user in article.liked_by.all():
-#             article.liked_by.remove(request.user)
-#             return HttpResponseRedirect(article.get_absolute_url())
-#         article.liked_by.add(request.user)
-#         return HttpResponseRedirect(article.get_absolute_url())
-
-
 class AddLikeView(View):
     """
     Добавление "лайка".
