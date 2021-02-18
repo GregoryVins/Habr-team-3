@@ -1,5 +1,9 @@
+from datetime import timedelta
+
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.utils.timezone import now
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
 
@@ -16,6 +20,10 @@ class ArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
+        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
         return context
 
 
@@ -28,6 +36,10 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
+        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
 
         # Проверка, поставил ли текущий пользователь "лайк" статье.
         article = self.get_object()
@@ -50,6 +62,10 @@ class CategoryDetailView(DetailView, MultipleObjectMixin):
             category__slug=self.kwargs['slug'], status='published', is_banned=False).order_by('-created_at')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['categories_list'] = Category.objects.all()
+        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
+        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+            number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
         return context
 
 

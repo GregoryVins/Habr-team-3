@@ -23,7 +23,8 @@
                     {% endif %}
                     <div class="article-part-text">
                         {{ article.get_piece_body }}...<br>
-                        <a class="btn btn-outline-dark my-3" href="{{ article.get_absolute_url }}">Читать дальше &rightarrow;</a>
+                        <a class="btn btn-outline-dark my-3" href="{{ article.get_absolute_url }}">Читать дальше
+                            &rightarrow;</a>
                     </div>
                     <div class="article-stats d-flex align-items-center">
                         <div>
@@ -47,15 +48,31 @@
             <div class="container">
                 <h6>РЕКОМЕНДУЕМ</h6>
                 <hr>
-                {% for top_article in top_articles %}
+                <span class="text-muted h6">Наиболее популярные</span>
+                {% for top_article in like_count %}
                     <div class="form-control">
-                        <p class="recommended-article-title">{{ top_article.title }}</p>
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
                         <div class="article-stats">
-                            <a href="#"><img src="#" alt="cloud"></a>
-                            <a href="#"><img src="#" alt="like"></a>
+                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
+                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
                         </div>
                     </div>
                 {% endfor %}
+
+                <br><br>
+
+                <span class="text-muted h6">Наиболее обсуждаемые</span>
+                {% for top_article in comment_count %}
+                    <div class="form-control">
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
+                        <div class="article-stats">
+                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
+                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
+                        </div>
+                    </div>
+                {% endfor %}
+
+
             </div>
         </aside>
 

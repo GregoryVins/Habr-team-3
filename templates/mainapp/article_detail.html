@@ -158,13 +158,34 @@
                 <div class="col-md-3 ml-auto">
                     <aside class="sidebar sidebar-sticky">
                         <div class="card mb-4">
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: #ecdcf5">
                                 <h6 class="card-title">РЕКОМЕНДУЕМ</h6>
-                                {% for top_article in top_articles %}
-                                    <a href="#" class="d-inline-block">
-                                        <h4 class="h6">{{ top_article.title }}</h4>
-                                    </a><br>
-                                {% endfor %}
+
+                <hr>
+                <span class="text-muted h6">Наиболее популярные</span>
+                {% for top_article in like_count %}
+                    <div class="form-control">
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
+                        <div class="article-stats">
+                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
+                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <br><br>
+
+                <span class="text-muted h6">Наиболее обсуждаемые</span>
+                {% for top_article in comment_count %}
+                    <div class="form-control">
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
+                        <div class="article-stats">
+                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
+                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
+                        </div>
+                    </div>
+                {% endfor %}
+
                             </div>
                         </div>
                     </aside>
@@ -201,7 +222,7 @@
                 $(comment).append(replyForm);
             }
         }
-    
+
         function addLike() {
             $.ajax({
                     type: 'GET',
@@ -209,7 +230,7 @@
                     data: '',
                     success: function(response) {
                         $('#likes-count').html(`${response.likes_info.likes_count}`);
-                        
+
                         if (`${response.likes_info.user_add_like}` == 'true') {
                             $('#like-image').removeClass('like-image');
                             $('#like-image').addClass('like-image-blue');
