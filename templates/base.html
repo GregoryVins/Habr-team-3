@@ -29,7 +29,9 @@
         <!-- Top navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar">
             <div class="container">
-                <a class="navbar-brand" href="{% url 'list_articles' %}">Your Own Habr</a>
+                <a class="navbar-brand" href="{% url 'list_articles' %}">
+                    <img src="{% static 'img/top_logo.png' %}" alt="logotype" class="top-logo-img">Your Own Habr
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -58,13 +60,15 @@
             </div>
             <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarCollapse">
                 {% if user.is_authenticated %}
+                    <img src="/media/{{ article.user.avatar|default:"users_avatars/default.png" }}"
+                         alt="author-avatar" class="author-avatar">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ user.username }}
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'user_statistic' %}">Личный кабинет</a></li>
                                 {% if user.is_superuser %}
                                     <li><a class="dropdown-item" href="/admin/">
@@ -96,8 +100,7 @@
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container d-flex">
             <div class="w-25">
-                <p><img src="https://via.placeholder.com/140x100" alt="logotype"></p>
-                <p>Your Own Habr</p>
+                <p><img src="{% static 'img/bottom_logo.png' %}" alt="logotype" class="bottom-logo-img"></p>
             </div>
             <div class="w-25">
                 <p class="h5">Разделы</p>
