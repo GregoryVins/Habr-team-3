@@ -13,7 +13,7 @@
                         <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
                         <div class="article-stats">
                             <img src="{% static 'img/comment.png' %}" alt="cloud"> {{ top_article.comment_set.count }}&nbsp;&nbsp;
-                            <i class="far fa-thumbs-up like-image" id="like-image"></i> {{ top_article.liked_by.count }}
+                            <i class="far fa-thumbs-up like-image text-muted" id="like-image"></i> {{ top_article.liked_by.count }}
                         </div>
                     </div><hr>
                 {% endfor %}
@@ -26,7 +26,7 @@
                         <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
                         <div class="article-stats">
                             <img src="{% static 'img/comment.png' %}" alt="cloud"> {{ top_article.comment_set.count }}&nbsp;&nbsp;
-                            <i class="far fa-thumbs-up like-image" id="like-image"></i> {{ top_article.liked_by.count }}
+                            <i class="far fa-thumbs-up like-image text-muted" id="like-image"></i> {{ top_article.liked_by.count }}
                         </div>
                     </div><hr>
                 {% endfor %}
