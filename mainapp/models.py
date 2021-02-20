@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from pytils.translit import slugify
+from ckeditor.fields import RichTextField
 
 from authapp.models import HabrUser
 
@@ -39,9 +40,9 @@ class Article(models.Model):
     ]
 
     user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     title = models.CharField(verbose_name='Название статьи', max_length=255, unique=True)
-    body = models.TextField(verbose_name='Содержимое статьи')
+    body = RichTextField(verbose_name='Содержимое статьи', blank=True, null=True)
     image = models.ImageField(upload_to='article_image', blank=True)
     status = models.CharField(verbose_name='Статус статьи', max_length=50, choices=ARTICLE_STATUS)
     slug = models.SlugField(null=False, unique=True)
@@ -82,7 +83,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     """Модель комментария."""
-    body = models.TextField(verbose_name='Текст комментария')
+    body = RichTextField(config_name='comment_form', verbose_name='', blank=True, null=True)
     user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)

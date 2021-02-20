@@ -36,6 +36,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['comment_form'] = CommentForm()
         context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
         context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(

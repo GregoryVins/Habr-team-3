@@ -22,7 +22,7 @@
                         </div>
                     {% endif %}
                     <div class="article-part-text">
-                        {{ article.get_piece_body }}...<br>
+                        {{ article.get_piece_body|safe }}...<br>
                         <a class="btn btn-outline-dark my-3" href="{{ article.get_absolute_url }}">Читать дальше
                             &rightarrow;</a>
                     </div>

@@ -65,7 +65,6 @@
     width: 98%;
 }
 
-.custom-form-size {
-    width: 30%;
-    margin-left: 35%;
+.comment-form-div > .django-ckeditor-widget {
+    width: 100%;
 }
