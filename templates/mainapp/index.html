@@ -29,52 +29,22 @@
                     <div class="article-stats d-flex align-items-center">
                         <div>
                             <img src="{% static 'img/comment.png' %}" alt="cloud">
-                            <span class="text-muted h6">{{ article.comment_set.count }}</span>
+                            <span class="h6">{{ article.comment_set.count }}</span>
                         </div>
                         <div class="mx-4">
-                            <img src="{% static 'img/like.png' %}" alt="like">
-                            <span class="text-muted h6">{{ article.liked_by.count }}</span>
+                            <i class="far fa-thumbs-up like-image" id="like-image"></i>
+                            <span class="h6">{{ article.liked_by.count }}</span>
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr class="hr-short-width">
             {% endfor %}
             {% if is_paginated %}
                 {% include "includes/pagination.html" %}
             {% endif %}
         </main>
 
-        <aside class="h-50 w-25">
-            <div class="container">
-                <h6>РЕКОМЕНДУЕМ</h6>
-                <hr>
-                <span class="text-muted h6">Наиболее популярные</span>
-                {% for top_article in like_count %}
-                    <div class="form-control">
-                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
-                        <div class="article-stats">
-                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
-                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
-                        </div>
-                    </div>
-                {% endfor %}
-
-                <br><br>
-
-                <span class="text-muted h6">Наиболее обсуждаемые</span>
-                {% for top_article in comment_count %}
-                    <div class="form-control">
-                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
-                        <div class="article-stats">
-                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
-                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
-                        </div>
-                    </div>
-                {% endfor %}
-
-
-            </div>
-        </aside>
+        {% include "includes/right_sidebar.html" %}
 
     </div>
 {% endblock %}

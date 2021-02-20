@@ -102,7 +102,7 @@
                                             <!-- Replies -->
                                             {% for reply in comment.comment_set.all %}
                                                 <hr class="hr-dashed">
-                                                <div class="media mb-3 left-indent" id="comment-{{ reply.id }}">
+                                                <div class="media mb-3 comment-left-indent" id="comment-{{ reply.id }}">
                                                     <div class="article-info d-flex align-items-center"
                                                          id="comment-{{ reply.id }}">
                                                         <img src="/media/{{ comment.user.avatar|default:'users_avatars/default.png' }}"
@@ -155,41 +155,9 @@
                         </div>
                     </article>
                 </div>
-                <div class="col-md-3 ml-auto">
-                    <aside class="sidebar sidebar-sticky">
-                        <div class="card mb-4">
-                            <div class="card-body" style="background-color: #ecdcf5">
-                                <h6 class="card-title">РЕКОМЕНДУЕМ</h6>
 
-                <hr>
-                <span class="text-muted h6">Наиболее популярные</span>
-                {% for top_article in like_count %}
-                    <div class="form-control">
-                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
-                        <div class="article-stats">
-                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
-                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
-                        </div>
-                    </div>
-                {% endfor %}
+                {% include "includes/right_sidebar.html" %}
 
-                <br><br>
-
-                <span class="text-muted h6">Наиболее обсуждаемые</span>
-                {% for top_article in comment_count %}
-                    <div class="form-control">
-                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
-                        <div class="article-stats">
-                            {{ top_article.comment_set.count }} <img src="{% static 'img/comment.png' %}" alt="cloud">
-                            {{ top_article.liked_by.count }} <img src="{% static 'img/like.png' %}" alt="like">
-                        </div>
-                    </div>
-                {% endfor %}
-
-                            </div>
-                        </div>
-                    </aside>
-                </div>
             </div>
         </div>
     </main>

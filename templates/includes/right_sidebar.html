@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="col-md-3 ml-auto">
+    <aside class="sidebar sidebar-sticky">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="card-title">РЕКОМЕНДУЕМ</h6>
+
+                <hr>
+                <span class="text-muted h6">Наиболее популярные</span>
+                {% for top_article in like_count %}
+                    <div class="form-control no-border">
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
+                        <div class="article-stats">
+                            <img src="{% static 'img/comment.png' %}" alt="cloud"> {{ top_article.comment_set.count }}&nbsp;&nbsp;
+                            <i class="far fa-thumbs-up like-image" id="like-image"></i> {{ top_article.liked_by.count }}
+                        </div>
+                    </div><hr>
+                {% endfor %}
+
+                <br><br>
+
+                <span class="text-muted h6">Наиболее обсуждаемые</span>
+                {% for top_article in comment_count %}
+                    <div class="form-control no-border">
+                        <a href="{{ top_article.get_absolute_url }}" class="text-decoration-none">{{ top_article.title }}</a>
+                        <div class="article-stats">
+                            <img src="{% static 'img/comment.png' %}" alt="cloud"> {{ top_article.comment_set.count }}&nbsp;&nbsp;
+                            <i class="far fa-thumbs-up like-image" id="like-image"></i> {{ top_article.liked_by.count }}
+                        </div>
+                    </div><hr>
+                {% endfor %}
+            </div>
+        </div>
+    </aside>
+</div>
