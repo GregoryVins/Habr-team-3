@@ -9,6 +9,7 @@
             <h1 class="h3 mb-3 font-weight-normal">Создание новой статьи:</h1>
             <form class="form-horizontal" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                {{ form.media }}
                 {{ form.as_p }}
                 <br><br>
                 <input type="submit" name="type" value="Сохранить" class="w-25 btn btn-secondary">

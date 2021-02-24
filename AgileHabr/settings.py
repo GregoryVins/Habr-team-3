@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     # Third apps
     'widget_tweaks',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Basic',
+        'toolbar_Basic': [
+            ['Format', 'Font', 'FontSize'],
+            ['Source', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-',
+                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',],
+            ['Find'],
+            ['HorizontalRule', 'Smiley', 'SpecialChar'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['TextColor', 'BGColor']
+        ],
+        'width': '100%'
+    },
+
+    'comment_form': {
+        'toolbar': 'Basic',
+        'toolbar_Basic': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['Smiley', 'SpecialChar'],
+        ],
+        'width': '100%',
+        'height': 150
+    }
+}
