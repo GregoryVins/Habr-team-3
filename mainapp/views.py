@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
+from django.db.models import Q
 
 from mainapp.forms import CommentForm
 from mainapp.models import Category, Article, Comment
@@ -118,4 +119,18 @@ class BannedArticleView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        return context
+
+
+class SearchView(ArticleListView):
+    template_name = 'mainapp/search_result.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_data = self.request.GET.get('search_data')
+        return queryset.filter(Q(title__icontains=search_data))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_data'] = self.request.GET.get('search_data')
         return context

@@ -68,3 +68,7 @@
 .comment-form-div > .django-ckeditor-widget {
     width: 100%;
 }
+
+.highlight-keyword {
+    background-color: yellow;
+}
