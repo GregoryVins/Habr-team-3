@@ -65,6 +65,10 @@
     width: 98%;
 }
 
+.article-part-text {
+    word-wrap: break-word;
+}
+
 .comment-form-div > .django-ckeditor-widget {
     width: 100%;
 }

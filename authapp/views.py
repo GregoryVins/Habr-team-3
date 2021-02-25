@@ -6,7 +6,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
 from authapp.forms import HabrUserRegisterForm, HabrUserUpdateForm, UserCreateArticleForm, UserUpdateArticleForm
 from authapp.models import HabrUser
-from mainapp.models import Category, Article
+from mainapp.models import Category, Article, Comment
 
 
 class UserLoginView(LoginView):
@@ -41,8 +41,12 @@ class UserAccountStatisticView(DetailView):
         return self.request.user
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['count'] = Article.objects.filter(liked_by=user).count()
+        context['comments'] = Comment.objects.filter(user=user).count()
+        context['published'] = Article.objects.filter(user=user, status='published').count()
         return context
 
 
@@ -88,6 +92,7 @@ class UserCreateArticleView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['title_text'] = 'Создание новой статьи:'
         return context
 
     def form_valid(self, form):
@@ -109,6 +114,7 @@ class UserUpdateArticleView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
+        context['title_text'] = 'Редактирование статьи:'
         return context
 
     def get_success_url(self):

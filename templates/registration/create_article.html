@@ -6,7 +6,7 @@
         <div class="text-center m-5">
             {% include 'registration/includes/inc__account_menu.html' %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Создание новой статьи:</h1>
+            <h1 class="h3 mb-3 font-weight-normal">{{ title_text }}</h1>
             <form class="form-horizontal" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.media }}
