@@ -5,16 +5,32 @@
     <div class="container">
         <div class="text-center m-5">
             {% include 'registration/includes/inc__account_menu.html' %}
-
-            <h1 class="h3 mb-3 font-weight-normal">
-                {{ user|capfirst }} <span class="text-muted">({{ user.email }})</span>
-            </h1>
-            <p>Количество написаных статей: {{ user.article_set.all.count }}</p>
-            <p class="display-6">Тут будет моя статистика</p>
-            <p class="display-6 bg-dark text-light py-5">Coming soon...</p>
-            <br><br>
-
-            <a href="{% url 'list_articles' %}" class="btn form-control">Вернуться на главную</a>
         </div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="w-50">
+                <p>Почта пользователя: {{ user.email }}</p>
+                {% if user.first_name %}
+                    <p>Имя: {{ user.first_name }}</p>
+                {% endif %}
+                {% if user.age %}
+                    <p>Возраст: {{ user.age }}</p>
+                {% endif %}
+                {% if user.age %}
+                    <p>Последнее обновление: {{ user.updated_at }}</p>
+                {% endif %}
+                <p>Количество написаных статей: {{ user.article_set.all.count }}</p>
+                <p>Из них опубликованно: {{ published }}</p>
+                <p>Количество лайков за статьи: {{ count }}</p>
+                <p>Всего оставлено комментариев: {{ comments }}</p>
+            </div>
+            <div class="w-50">
+                <img src="/media/{{ user.avatar|default:'users_avatars/default.png' }}" alt="avatar">
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'list_articles' %}" class="btn form-control">Вернуться на главную</a>
+        <hr>
+
     </div>
 {% endblock %}

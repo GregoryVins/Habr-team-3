@@ -41,7 +41,7 @@ class Article(models.Model):
 
     user = models.ForeignKey(HabrUser, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
-    title = models.CharField(verbose_name='Название статьи', max_length=255, unique=True)
+    title = models.CharField(verbose_name='Название статьи', max_length=50, unique=True)
     body = RichTextField(verbose_name='Содержимое статьи', blank=True, null=True)
     image = models.ImageField(upload_to='article_image', blank=True)
     status = models.CharField(verbose_name='Статус статьи', max_length=50, choices=ARTICLE_STATUS)
