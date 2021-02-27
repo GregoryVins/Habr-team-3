@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
 
@@ -82,6 +84,7 @@ class UserAccountMyArticles(ListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class UserCreateArticleView(CreateView):
     """Создание новой статьи."""
     template_name = 'registration/create_article.html'
@@ -105,6 +108,7 @@ class UserCreateArticleView(CreateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserUpdateArticleView(UpdateView):
     """Редактирвоание статьи."""
     model = Article
@@ -159,6 +163,7 @@ class AddLikeView(View):
     Добавление "лайка".
     Удаление в случае, если "лайк" уже существует.
     """
+
     def get(self, request, *args, **kwargs):
         article = Article.objects.get(pk=self.kwargs['pk'])
         try:
@@ -170,7 +175,7 @@ class AddLikeView(View):
                 user_add_like = 'true'
         except:
             return JsonResponse({'success': False}, status=400)
-        
+
         likes_info = {
             'likes_count': article.liked_by.count(),
             'user_add_like': user_add_like
