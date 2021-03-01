@@ -76,3 +76,8 @@
 .highlight-keyword {
     background-color: yellow;
 }
+
+.user-avatar {
+    max-width: 25vh;
+    max-height: 25vh;
+}
