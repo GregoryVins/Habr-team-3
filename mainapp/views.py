@@ -21,9 +21,9 @@ class ArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
-        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['like_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
-        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['comment_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
         return context
 
@@ -38,9 +38,9 @@ class ArticleDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['categories_list'] = Category.objects.all()
         context['comment_form'] = CommentForm()
-        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['like_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
-        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['comment_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
 
         # Проверка, поставил ли текущий пользователь "лайк" статье.
@@ -64,9 +64,9 @@ class CategoryDetailView(DetailView, MultipleObjectMixin):
             category__slug=self.kwargs['slug'], status='published', is_banned=False).order_by('-created_at')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['categories_list'] = Category.objects.all()
-        context['like_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['like_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_likes=Count('liked_by')).order_by('-number_of_likes')[:3]
-        context['comment_count'] = Article.objects.filter(created_at__gt=now() - timedelta(days=7)).annotate(
+        context['comment_count'] = Article.objects.filter(status='published', created_at__gt=now() - timedelta(days=7)).annotate(
             number_of_comments=Count('comment')).order_by('-number_of_comments')[:2]
         return context
 
@@ -124,6 +124,11 @@ class BannedArticleView(UpdateView):
 
 class SearchView(ArticleListView):
     template_name = 'mainapp/search_result.html'
+
+    def get(self, *args, **kwargs):
+        if not self.request.GET.get('search_data'):
+            return HttpResponseRedirect(self.request.META.get('HTTP_REFERER'))
+        return super().get(*args, **kwargs)
 
     def get_queryset(self):
         queryset = super().get_queryset()
