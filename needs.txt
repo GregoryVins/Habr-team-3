@@ -1,6 +1,9 @@
 asgiref==3.3.1
 Django==3.1.5
 django-ckeditor==6.0.0
+django-cors-headers==3.7.0
+django-js-asset==1.2.2
+djangorestframework==3.12.2
 django-widget-tweaks==1.4.8
 Pillow==8.1.0
 pytz==2020.5
