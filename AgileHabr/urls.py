@@ -23,6 +23,7 @@ urlpatterns = [
     path('auth/', include('authapp.urls'), name='auth'),
     path('auth/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
+    path('api/v1/', include('api.urls'), name='api_v1'),
 ]
 
 if settings.DEBUG:

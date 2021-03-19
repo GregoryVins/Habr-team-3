@@ -40,15 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authapp',
     'mainapp',
+    'api',
 
     # Third apps
     'widget_tweaks',
     'ckeditor',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -180,3 +184,5 @@ CKEDITOR_CONFIGS = {
         'height': 150
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
